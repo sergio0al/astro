@@ -1,11 +1,1357 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doscientos — Ve tu software funcionando antes de pagar</title>
+  <meta name="description"
+    content="Desarrollamos el software a medida que tu empresa necesita. Te enseñamos una demostración funcional sin coste antes de que decidas. Precio fijo, 6 semanas, código 100% tuyo." />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Doscientos — Ve tu software funcionando antes de pagar un solo euro">
+  <meta property="og:description"
+    content="Demostración funcional sin coste de tu software a medida. Si no te convence, no pagas nada.">
+  <meta property="og:image" content="https://doscientos.es/og-image.png">
+  <link rel="icon" type="image/svg+xml" href="https://doscientos.es/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://kit.fontawesome.com/a9b5133090.js" crossorigin="anonymous"></script>
+
+  <!--
+    ====================================================================
+    NOTA TÉCNICA SOBRE EL FORMULARIO
+    Los dos formularios de esta página (hero y CTA final) son el widget
+    nativo de GoHighLevel, embebido como iframe (data-form-id
+    "WCEM83cs117HgWgAWREj", formulario "GOOGLE ADS"). Los leads llegan
+    directos al flujo/CRM de GHL, igual que cualquier otro formulario
+    de esa cuenta. El <script src=".../form_embed.js"> del final de la
+    página es el que ajusta la altura real del iframe una vez carga.
+    ====================================================================
+  -->
+
+  <style>
+    /* =========================================================
+       VARIABLES DE MARCA — tomadas de doscientos.es
+       Lima #BDFF7B + negro casi puro, el mismo contraste que usan
+       ellos en su propia web.
+       ========================================================= */
+    :root {
+      --bg: #0b0c0b;
+      --bg-soft: #131510;
+      --card: #15170f;
+      --text: #f6f7f2;
+      --text-muted: #9a9d92;
+      --lime: #bdff7b;
+      --lime-dim: #9fe85f;
+      --ink: #0c110b;
+      --border: rgba(255, 255, 255, 0.1);
+      --radius: 999px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Fondo e tipografía también aplicados a este wrapper: así la landing
+       se ve igual aunque GoHighLevel inserte el snippet dentro de una
+       página con fondo blanco (solo se conserva lo que va dentro de <body>).
+       Además "rompe" el ancho de la columna/sección de GHL con el truco de
+       full-bleed (width:100vw + left:50% + margin-left:-50vw), para que el
+       fondo negro llegue de borde a borde y no queden franjas blancas a
+       los lados cuando la columna de GHL es más estrecha que la pantalla. */
+    .ds-landing {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      margin-left: -50vw;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      letter-spacing: -0.02em;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    /* ---------- BOTONES ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: var(--font);
+      font-weight: 700;
+      border-radius: var(--radius);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-lime {
+      color: var(--ink);
+      font-size: 16px;
+      padding: 13px 26px;
+      background: var(--lime);
+      box-shadow: 0 8px 24px rgba(189, 255, 123, 0.18);
+    }
+
+    .btn-lime:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .btn-outline {
+      color: var(--text);
+      font-size: 15px;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-lg {
+      font-size: 18px;
+      padding: 18px 40px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+
+    /* ---------- HERO ---------- */
+    .hero {
+      padding: 56px 0 72px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+  
+
+    h1.hero-title {
+      font-size: clamp(34px, 4.6vw, 56px);
+      line-height: 1.05;
+      max-width: 14ch;
+    }
+
+    h1.hero-title .accent {
+      color: var(--lime);
+    }
+
+    .hero-subtitle {
+      margin-top: 22px;
+      max-width: 46ch;
+      font-size: clamp(17px, 1.6vw, 19px);
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .hero-cta-row {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-proof {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-proof .stars {
+      color: var(--lime);
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+
+    .hero-proof span.label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- FORM CARD ---------- */
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-card h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .form-card .form-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--lime);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 72px;
+    }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ---------- FORMULARIO NATIVO DE GHL (iframe) ---------- */
+    .ghl-embed {
+      height: 430px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .ghl-embed iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ---------- TRUST BAR ---------- */
+    .trust-wrap {
+      padding: 36px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+      overflow: hidden;
+    }
+
+    .logo-marquee {
+      overflow: hidden;
+      width: 100%;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    .logo-track {
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      width: max-content;
+      animation: ds-marquee 32s linear infinite;
+    }
+
+    .logo-marquee:hover .logo-track {
+      animation-play-state: paused;
+    }
+
+    .logo-track img {
+      height: 30px;
+      width: auto;
+      flex: 0 0 auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.65;
+      transition: opacity .2s ease;
+    }
+
+    .logo-track img:hover {
+      opacity: 1;
+    }
+
+    @keyframes ds-marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .stats-row {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: center;
+    }
+
+    .stats-row .stat b {
+      display: block;
+      font-size: 26px;
+      color: var(--lime);
+      font-weight: 800;
+    }
+
+    .stats-row .stat span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- SECTION HEADINGS ---------- */
+    .section {
+      padding: 84px 0;
+    }
+
+    .section-tight {
+      padding: 56px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 48px;
+    }
+
+    .section-head .kicker {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--lime);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(26px, 3.4vw, 38px);
+      line-height: 1.15;
+    }
+
+    .section-head p {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- DEMO SIN COSTE (estrella) ---------- */
+    .demo-section {
+      background: linear-gradient(180deg, rgba(189, 255, 123, 0.07), transparent 60%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1020px;
+      margin: 0 auto;
+      counter-reset: step;
+    }
+
+    .demo-step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 26px;
+      position: relative;
+    }
+
+    .demo-step .num {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .demo-step h3 {
+      font-size: 19px;
+      margin-bottom: 10px;
+    }
+
+    .demo-step p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .demo-step .free-badge {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--lime);
+      border: 1px solid rgba(189, 255, 123, 0.35);
+      border-radius: var(--radius);
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .demo-cta {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .demo-cta p {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- CASOS DE ÉXITO ---------- */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .case-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(189, 255, 123, 0.35);
+    }
+
+    .case-media {
+      background: #fff;
+      aspect-ratio: 16/11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .case-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+    }
+
+    .case-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .case-client {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .case-body h3 {
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .case-body p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .case-result {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .case-result b {
+      font-size: 24px;
+      color: var(--lime);
+      font-weight: 800;
+    }
+
+    .case-result .case-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .case-result .case-link:hover {
+      color: var(--text);
+    }
+
+    /* ---------- POR QUÉ NOSOTROS ---------- */
+    .compare {
+      max-width: 820px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-size: 14.5px;
+    }
+
+    .compare-row:last-child {
+      border-bottom: none;
+    }
+
+    .compare-row>div {
+      padding: 16px 18px;
+    }
+
+    .compare-row.head {
+      background: rgba(255, 255, 255, 0.03);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .compare-row .us {
+      color: var(--lime);
+      font-weight: 700;
+    }
+
+    .compare-row .them {
+      color: var(--text-muted);
+    }
+
+    .compare-row .label {
+      color: var(--text);
+    }
+
+    /* ---------- TESTIMONIOS ---------- */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .testi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .testi-card .stars {
+      color: var(--lime);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .testi-card p.quote {
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .testi-who {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .testi-who b {
+      font-size: 14.5px;
+    }
+
+    .testi-who span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      cursor: pointer;
+      padding: 20px 24px;
+      font-weight: 700;
+      font-size: 16px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "+";
+      font-size: 22px;
+      color: var(--lime);
+      font-weight: 400;
+    }
+
+    .faq-item[open] summary::after {
+      content: "–";
+    }
+
+    .faq-item .faq-a {
+      padding: 0 24px 22px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ---------- CTA FINAL ---------- */
+    .final-cta {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+    }
+
+    .final-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .final-grid h2 {
+      font-size: clamp(26px, 3.4vw, 36px);
+      line-height: 1.15;
+      max-width: 16ch;
+    }
+
+    .final-grid p.sub {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 44ch;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-legal {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .testi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .final-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .compare-row {
+        grid-template-columns: 1.1fr 1fr 1fr;
+        font-size: 13px;
+      }
+
+      .compare-row>div {
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .trust-micro {
+        display: none;
+      }
+
+      .btn-lg {
+        width: 100%;
+      }
+
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-proof {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body class="">
+  <!-- Logo oficial (internal/landing/public/logo.svg), inline para que funcione aunque
+       la página se pegue en GoHighLevel sin acceso a los assets de la landing. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="ds-logo" viewBox="0 0 859 858">
+      <rect width="858.204" height="858" fill="#BDFF7B" />
+      <path
+        d="M144.518 317.011C174.22 317.011 202.704 328.81 223.706 349.812C244.708 370.814 256.507 399.299 256.507 429C256.507 458.701 244.708 487.186 223.706 508.188C202.704 529.19 174.22 540.989 144.519 540.989H110.5V317.011L144.518 317.011Z"
+        fill="#0C110B" />
+      <circle cx="389.757" cy="429" r="111.989" fill="#0C110B" />
+      <circle cx="634.996" cy="429" r="111.989" fill="#0C110B" />
+    </symbol>
+  </svg>
+
+  <div class="ds-landing">
+
+
+
+    <!-- Mensaje "Agenda abierta para nuevos proyectos" -->
+    <div class="fixed bottom-10 right-10 flex gap-3 border-lime-400 border-1 px-3 py-1 rounded-full items-center text-sm bg-black"> <span class="size-3 rounded-full bg-lime-400"></span> Agenda abierta para nuevos proyectos</div>
+
+    
+    <!-- 1. BARRA SUPERIOR MÍNIMA -->
+    <header class="fixed top-0 z-200 flex w-full justify-center pointer-events-none">
+      <a href="https://doscientos.es/" class="pointer-events-auto relative flex items-center gap-2 rounded-b-3xl bg-white px-6 pb-3 pt-2
+        before:content-[''] before:absolute before:top-0 before:-left-4 before:size-4 before:bg-[radial-gradient(circle_at_0_100%,transparent_16px,#fff_16.5px)]
+        after:content-[''] after:absolute after:top-0 after:-right-4 after:size-4 after:bg-[radial-gradient(circle_at_100%_100%,transparent_16px,#fff_16.5px)] hover:shadow-[0_0_30px_rgba(182,255,92,0.45)] transition-shadow duration-500">
+        <img src="images/iso.svg" alt="Logo de Doscientos" class="h-3">
+        <span class="text-sm font-semibold leading-none text-[#2f4a32]">doscientos</span>
+      </a>
+    </header>
+    
+
+    <main>
+      <section id="sectionHero" class="h-screen pt-4 flex flex-col gap-15 pt-30 bg-gradient-to-b from-black via-lime-900 to-black">
+          <ul class="flex gap-30 w-screen box-border text-center justify-center pb-10">
+            <li class="flex flex-col items-center gap-2 max-w-50 border-lime-400 border-b-2">
+              <p class="size-11 text-2xl text-black font-bold bg-lime-300 flex justify-center items-center rounded-full">1</p>
+              <h3 class="text-lg">Rellena el formulario</h3>
+              <p class="text-sm">Nombre, teléfono y email. Son 30 segundos.</p>
+            </li>
+            <li class="flex flex-col items-center gap-2 max-w-50">
+              <p class="size-11 text-2xl text-black font-bold text-bold bg-white flex justify-center items-center rounded-full">2</p>
+              <h3 class="text-lg">Te contactamos</h3>
+              <p class="text-sm">Un miembro de nuestro equipo se pone en contacto contigo en 24h laborables.</p>
+            </li>
+            <li class="flex flex-col items-center gap-2 max-w-50">
+              <p class="size-11 text-2xl text-black font-bold text-bold bg-white flex justify-center items-center rounded-full">3</p>
+              <h3 class="text-lg">Llamada de 15 minutos</h3>
+              <p class="text-sm">Nos cuentas qué proceso quieres automatizar o qué app necesitas. Sin tecnicismos.</p>
+            </li>
+            <li class="flex flex-col items-center gap-2 max-w-50">
+              <p class="size-11 text-2xl text-black font-bold bg-white flex justify-center items-center rounded-full">4</p>
+              <h3 class="text-lg">Te enseñamos tu demo</h3>
+              <p class="text-sm">Construimos una demostración funcional, sin coste, y te la presentamos.</p>
+            </li>
+          </ul>
+          <div>
+            <iframe src="https://api.leadconnectorhq.com/widget/form/WCEM83cs117HgWgAWREj"
+                style="width:100%;height:100%;border:none;border-radius:4px" id="inline-WCEM83cs117HgWgAWREj-final"
+                data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value=""
+                data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate"
+                data-deactivation-value="" data-form-name="GaOOGLE ADS" data-height="430"
+                data-layout-iframe-id="inline-WCEM83cs117HgWgAWREj-final" data-form-id="WCEM83cs117HgWgAWREj"
+                data-cookie-consent="true" data-cookie-consent-provider="auto" title="GOOGLE ADS"></iframe>
+                
+                <p class="text-center text-sm pt-22">Respuesta en 24h laborables · Sin compromiso</p>
+                <p class="text-center text-sm">
+                Responsable: DOSCIENTOS DESARROLLO TECNOLOGICO, S.L. Usaremos tus datos solo para responder a tu
+                solicitud. Puedes ejercer tus derechos en hola@doscientos.es. Más información en la
+                <a href="https://doscientos.es/privacy" target="_blank" rel="noopener">política de privacidad</a>.
+              </p>
+          </div>
+      </section>
+
+
+
+
+      <section id="sectionEmpresas" class="bg-[#131710] flex flex-col text-center h-50 border-t-1 justify-center border-b-0">
+        <h2 class="text-xl pt-10 pb-3">Empresas como estas ya confían en nosotros</h2>
+        <div class="w-[1000px] overflow-hidden m-auto">
+          <div class="logo-track">
+            <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac478ac553500f1aa.webp"
+                alt="Grúas del Vallès" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac062e4fb05201d3f.webp"
+                alt="Palumba EU" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14bc478ac553500f1ca.webp"
+                alt="Salvadis" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a22bc27f58f942ba8.svg"
+                alt="IFCO Systems" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14adca4eec506073e2a.svg"
+                alt="Ajuntament de Mataró" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148c478ac553500f162.svg"
+                alt="Cashmóvil Canarias" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a17216aa3b2a2fa65.svg"
+                alt="Optinergia" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a7d735ea2a15b7157.webp"
+                alt="Golf Natural Guidance" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86209.svg"
+                alt="Ajuntament de Barcelona" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86208.svg"
+                alt="Bitácora" />
+              <!-- se repite para que el carrusel sea infinito -->
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac478ac553500f1aa.webp"
+                alt="Grúas del Vallès" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac062e4fb05201d3f.webp"
+                alt="Palumba EU" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14bc478ac553500f1ca.webp"
+                alt="Salvadis" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a22bc27f58f942ba8.svg"
+                alt="IFCO Systems" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14adca4eec506073e2a.svg"
+                alt="Ajuntament de Mataró" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148c478ac553500f162.svg"
+                alt="Cashmóvil Canarias" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a17216aa3b2a2fa65.svg"
+                alt="Optinergia" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a7d735ea2a15b7157.webp"
+                alt="Golf Natural Guidance" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86209.svg"
+                alt="Ajuntament de Barcelona" aria-hidden="true" />
+              <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86208.svg"
+                alt="Bitácora" aria-hidden="true" />
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 3. BARRA DE CONFIANZA -->
+      <!-- <section class="bg-zinc-800 border-2 border-zinc-600">
+        <h2 class="text-center">“Empresas como estas ya confían en nosotros”</h2>
+        <div class="container">
+          <div class="logo-marquee" aria-label="Empresas con las que hemos trabajado">
+            <div class="logo-track">
+          
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat"><b>6 semanas</b><span>MVP listo y funcionando</span></div>
+            <div class="stat"><b>100%</b><span>El código es tuyo</span></div>
+            <div class="stat"><b>Precio fijo</b><span>Cerrado desde el inicio</span></div>
+            <div class="stat"><b>+30</b><span>Proyectos entregados</span></div>
+          </div>
+        </div>
+      </section> -->
+
+      <!-- 4. LA DEMOSTRACIÓN SIN COSTE (sección estrella) -->
+      <section class="section demo-section" id="demo">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Nuestro diferencial</span>
+            <h2>Primero te lo enseñamos. Luego decides.</h2>
+            <p>Nada de maquetas en PDF ni promesas comerciales: ves tu software funcionando antes de comprometerte a
+              nada.</p>
+          </div>
+
+          <div class="demo-steps">
+            <div class="demo-step">
+              <div class="num">1</div>
+              <h3>Nos cuentas tu idea o tu proceso</h3>
+              <p>Una llamada corta para entender qué necesitas automatizar o construir, sin tecnicismos.</p>
+            </div>
+            <div class="demo-step">
+              <span class="free-badge">Sin coste</span>
+              <div class="num">2</div>
+              <h3>Te montamos una demostración funcional</h3>
+              <p>Construimos una demo real de tu software, sin coste, para que la veas y la pruebes funcionando.</p>
+            </div>
+            <div class="demo-step">
+              <div class="num">3</div>
+              <h3>Si te convence, lo desarrollamos. Si no, no pagas nada</h3>
+              <p>Decides con algo real delante. Si seguimos adelante, cerramos un precio fijo y nos ponemos a
+                construirlo de principio a fin.</p>
+            </div>
+          </div>
+
+          <div class="demo-cta">
+            <a class="btn btn-lime btn-lg" href="#demo-form">Pide tu demostración sin coste</a>
+            <p>Cero riesgo para ti: la demo no se cobra bajo ningún concepto.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. CASOS DE ÉXITO -->
+      <section class="section" id="casos">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Casos de éxito</span>
+            <h2>Resultados medibles, no promesas</h2>
+            <p>Una pequeña muestra de los más de 30 proyectos que hemos entregado.</p>
+          </div>
+
+          <div class="cases-grid">
+            <div class="case-card">
+              <div class="case-media"><img
+                  src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148dca4eec506073e05.webp"
+                  alt="App de Flatmatch (Exchange Student)" loading="lazy" /></div>
+              <div class="case-body">
+                <span class="case-client">Exchange Student · Flatmatch</span>
+                <h3>Plataforma para encontrar piso compartido</h3>
+                <p>Diseño y desarrollo de producto para una plataforma de alojamiento temporal, de cero a lanzamiento.
+                </p>
+                <div class="case-result">
+                  <b>500+ usuarios</b>
+                  <a class="case-link" href="https://doscientos.es/projects/flatmatch" target="_blank"
+                    rel="noopener">Ver caso ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-media"><img
+                  src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148c062e4fb05201d07.webp"
+                  alt="Módulo de facturación de Bitácora ERP" loading="lazy" /></div>
+              <div class="case-body">
+                <span class="case-client">Bitácora</span>
+                <h3>Facturación integrada para un ERP de logística</h3>
+                <p>Conectamos facturación, generación de documentos y contabilidad en un único flujo.</p>
+                <div class="case-result">
+                  <b>-90% tiempo</b>
+                  <a class="case-link" href="https://doscientos.es/projects/bitacora" target="_blank" rel="noopener">Ver
+                    caso ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-media"><img
+                  src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148dca4eec506073e0f.webp"
+                  alt="Migración de sistema legacy de IFCO Systems" loading="lazy" /></div>
+              <div class="case-body">
+                <span class="case-client">IFCO Systems</span>
+                <h3>Modernizar la gestión sin frenar la operación</h3>
+                <p>Migración de más de un millón de registros a un sistema nuevo sin parar el negocio ni un minuto.</p>
+                <div class="case-result">
+                  <b>0 min parada</b>
+                  <a class="case-link" href="https://doscientos.es/projects/ifco" target="_blank" rel="noopener">Ver
+                    caso ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. POR QUÉ NOSOTROS -->
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Por qué nosotros</span>
+            <h2>Doscientos frente a una agencia tradicional</h2>
+          </div>
+
+          <div class="compare">
+            <div class="compare-row head">
+              <div>Aspecto</div>
+              <div>doscientos</div>
+              <div>Agencia tradicional</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Entrega del MVP</div>
+              <div class="us">6 semanas</div>
+              <div class="them">4–6 meses</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Precio</div>
+              <div class="us">Fijo y cerrado</div>
+              <div class="them">Variable</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Demos</div>
+              <div class="us">Semanales</div>
+              <div class="them">Mensuales</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Código</div>
+              <div class="us">100% tuyo</div>
+              <div class="them">Depende del contrato</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Soporte</div>
+              <div class="us">30 días incluidos</div>
+              <div class="them">Coste adicional</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Equipo</div>
+              <div class="us">Senior dedicado</div>
+              <div class="them">Junior + rotación</div>
+            </div>
+            <div class="compare-row">
+              <div class="label">Cuotas por usuario</div>
+              <div class="us">Nunca</div>
+              <div class="them">Habitual</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. TESTIMONIOS -->
+      <section class="section section-tight">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Lo que dicen de nosotros</span>
+            <h2>Clientes reales, resultados reales</h2>
+          </div>
+          <div class="testi-grid">
+            <div class="testi-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote">"Profesionalidad, cercanía y muy buena atención desde el primer momento. Muy
+                satisfechos."</p>
+              <div class="testi-who"><b>Salvadis</b><span>Reseña verificada en Google</span></div>
+            </div>
+            <div class="testi-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote">"Necesitábamos una página web que transmitiera profesionalidad nada más entrar y eso lo
+                lograron."</p>
+              <div class="testi-who"><b>Cyberimpulsa</b><span>Reseña verificada en Google</span></div>
+            </div>
+            <div class="testi-card">
+              <div class="stars">★★★★★</div>
+              <p class="quote">"Rápidos, claros y muy profesionales. El producto me ha encantado."</p>
+              <div class="testi-who"><b>Natura Studio</b><span>Reseña verificada en Google</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. FAQ -->
+      <section class="section section-tight">
+        <div class="container">
+          <div class="section-head">
+            <span class="kicker">Preguntas frecuentes</span>
+            <h2>Antes de que preguntes</h2>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>¿Cuánto cuesta?</summary>
+              <div class="faq-a">La demostración inicial no tiene coste. A partir de ahí, el precio depende del alcance:
+                los MVP sencillos suelen moverse entre 5.000 € y 40.000 € o más para plataformas complejas (IVA no
+                incluido), siempre con precio fijo cerrado por escrito antes de empezar a desarrollar.</div>
+            </details>
+            <details class="faq-item">
+              <summary>¿Qué pasa si no me convence la demo?</summary>
+              <div class="faq-a">No pagas nada. La demostración es sin compromiso: si no encaja con lo que necesitas, no
+                sigues adelante y no te cobramos nada por el tiempo invertido.</div>
+            </details>
+            <details class="faq-item">
+              <summary>¿El código es mío?</summary>
+              <div class="faq-a">Sí, al 100%. No hay cuotas por usuario ni dependencia de nuestra infraestructura: el
+                código y la propiedad son tuyos desde el primer día.</div>
+            </details>
+            <details class="faq-item">
+              <summary>¿Cuánto tarda un proyecto?</summary>
+              <div class="faq-a">Un MVP estándar suele estar listo en 6 semanas, con demostraciones funcionales cada
+                viernes para que veas el avance real.</div>
+            </details>
+            <details class="faq-item">
+              <summary>¿Trabajáis con mi sector?</summary>
+              <div class="faq-a">Trabajamos con pymes de sectores muy distintos: administradores de fincas, asesorías
+                energéticas, despachos de abogados, restauración, logística, ecommerce y administraciones públicas,
+                entre otros.</div>
+            </details>
+            <details class="faq-item">
+              <summary>¿Y después del lanzamiento?</summary>
+              <div class="faq-a">Incluimos 30 días de soporte tras el lanzamiento para resolver cualquier ajuste. A
+                partir de ahí, podemos seguir dando mantenimiento o entregarte toda la documentación para que lo
+                gestione tu propio equipo.</div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. CTA FINAL + FORMULARIO -->
+      <section class="section final-cta">
+        <div class="container final-grid">
+          <div>
+            <span class="kicker">Último paso</span>
+            <h2>Pide tu demostración sin coste. Si no te convence, no pagas nada.</h2>
+            <p class="sub">Cuéntanos qué necesitas y te mostramos, sin compromiso, cómo quedaría funcionando antes de
+              que decidas.</p>
+          </div>
+
+          <div class="form-card">
+            <h3>Pide tu demostración sin coste</h3>
+            <p class="form-sub">Rellena el formulario y te contestamos en 24h laborables.</p>
+
+            <div class="ghl-embed">
+              <iframe src="https://api.leadconnectorhq.com/widget/form/WCEM83cs117HgWgAWREj"
+                style="width:100%;height:100%;border:none;border-radius:4px" id="inline-WCEM83cs117HgWgAWREj-final"
+                data-layout="{'id':'INLINE'}" data-trigger-type="alwaysShow" data-trigger-value=""
+                data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate"
+                data-deactivation-value="" data-form-name="GOOGLE ADS" data-height="430"
+                data-layout-iframe-id="inline-WCEM83cs117HgWgAWREj-final" data-form-id="WCEM83cs117HgWgAWREj"
+                data-cookie-consent="true" data-cookie-consent-provider="auto" title="GOOGLE ADS"></iframe>
+            </div>
+            <p class="form-note">Respuesta en 24h laborables · Valoración honesta aunque no trabajemos juntos.</p>
+            <p class="legal-note">
+              Responsable: DOSCIENTOS DESARROLLO TECNOLOGICO, S.L. Usaremos tus datos solo para responder a tu
+              solicitud. Puedes ejercer tus derechos en hola@doscientos.es. Más información en la
+              <a href="https://doscientos.es/privacy" target="_blank" rel="noopener">política de privacidad</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 10. FOOTER MÍNIMO -->
+    <footer>
+      <div class="container footer-inner">
+        <a class="brand" href="https://doscientos.es" target="_blank" rel="noopener" style="font-size:16px;"
+          aria-label="doscientos, abrir la web">
+          <svg class="brand-logo" aria-hidden="true" focusable="false" style="height:24px;width:24px;">
+            <use href="#ds-logo" />
+          </svg>
+          doscientos
+        </a>
+        <div class="footer-links">
+          <a href="mailto:hola@doscientos.es">hola@doscientos.es</a>
+          <a href="tel:+34624140151">+34 624 14 01 51</a>
+          <span>Premià de Mar · Barcelona y el Maresme</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://doscientos.es/legal" target="_blank" rel="noopener">Aviso legal</a>
+          <a href="https://doscientos.es/privacy" target="_blank" rel="noopener">Política de privacidad</a>
+          <a href="https://doscientos.es/cookies" target="_blank" rel="noopener">Cookies</a>
+          <a href="https://doscientos.es/terminos" target="_blank" rel="noopener">Términos</a>
+        </div>
+      </div>
+      <div class="container footer-legal">
+        <p>
+          DOSCIENTOS DESARROLLO TECNOLOGICO, S.L. · NIF B88873393 · Carrer Can Pou, 12, 08330 Premià de Mar
+          (Barcelona) · Inscrita en el Registro Mercantil de Barcelona, hoja 658663.
+        </p>
+        <p>© 2026 doscientos · Software a medida y automatización para pymes. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+  </div><!-- /.ds-landing -->
+
+  <!-- Script de GoHighLevel: detecta los iframes de formulario de arriba
+       y ajusta automáticamente su altura real (el valor data-height="430"
+       es solo el alto inicial antes de que cargue el formulario). -->
+  <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+
+  <!-- Doble envío del lead: GHL ya lo recibe desde el propio iframe. Cuando el formulario
+       se envía bien, GHL avisa a esta página con un postMessage
+       ["set-sticky-contacts", "_ud", "<JSON del contacto>"]. Lo escuchamos y reenviamos el
+       mismo lead al backoffice (/api/public/leads), igual que el formulario de la landing.
+       Si GHL cambiara ese formato, el lead seguiría llegando a GHL pero no al backoffice. -->
+  <script>
+    (function () {
+      var LEADS_ENDPOINT = "https://app.doscientos.es/api/public/leads";
+      var FORM_NAME = "GOOGLE ADS";
+      var sent = {};
+
+      function isOurIframe(source) {
+        var frames = document.querySelectorAll('iframe[data-form-id="WCEM83cs117HgWgAWREj"]');
+        for (var i = 0; i < frames.length; i++) {
+          if (frames[i].contentWindow === source) return true;
+        }
+        return false;
+      }
+
+      function param(name) {
+        try { return new URLSearchParams(window.location.search).get(name) || undefined; }
+        catch (e) { return undefined; }
+      }
+
+      function buildLead(c) {
+        var name = (c.full_name || c.name ||
+          [c.first_name, c.last_name].filter(Boolean).join(" ")).trim();
+        var lead = {
+          name: name || "Lead Google Ads",
+          email: c.email || undefined,
+          phone: c.phone || undefined,
+          company: c.company_name || c.companyName || undefined,
+          message: "Lead desde el formulario \"" + FORM_NAME + "\" (landing de Google Ads, GHL)",
+          language: "es",
+          landing_path: window.location.pathname,
+          landing_ref: "google-ads",
+          landing_subject: document.title,
+          referrer: document.referrer || undefined,
+          gclid: param("gclid"),
+          utm_source: param("utm_source") || (param("gclid") ? "google" : undefined),
+          utm_medium: param("utm_medium") || (param("gclid") ? "cpc" : undefined),
+          utm_campaign: param("utm_campaign"),
+          utm_term: param("utm_term"),
+          utm_content: param("utm_content"),
+          dedupeKey: c.id ? "ghl-" + c.id : undefined,
+          website: ""
+        };
+        Object.keys(lead).forEach(function (k) { if (lead[k] === undefined) delete lead[k]; });
+        return lead;
+      }
+
+      window.addEventListener("message", function (event) {
+        var data = event.data;
+        if (!Array.isArray(data) || data[0] !== "set-sticky-contacts" || data[1] !== "_ud") return;
+        if (!isOurIframe(event.source)) return;
+
+        var contact;
+        try { contact = JSON.parse(data[2]); } catch (e) { return; }
+        if (!contact || (!contact.email && !contact.phone)) return;
+
+        var key = contact.id || contact.email || contact.phone;
+        if (sent[key]) return;
+        sent[key] = true;
+
+        fetch(LEADS_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(buildLead(contact)),
+          keepalive: true
+        }).catch(function () { sent[key] = false; });
+      });
+    })();
+  </script>
+</body>
+
+</html>
