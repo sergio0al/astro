@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@theme {
+  --font-doscientos: "Hanken Grotesk", system-ui, sans-serif;
+}

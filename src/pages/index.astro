@@ -1,7 +1,15 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+
+import Header from '../components/Header.astro'
+import AgendaAbiera from '../components/AgendaAbierta.astro'
+import Pasos from '../components/Pasos.astro'
+import PasosSeleccionado from '../components/PasosSeleccionado.astro'
+import Resenas from '../components/Resenas.astro'
+import '../styles/global.css'
 ---
+
 
 
 <!DOCTYPE html>
@@ -21,8 +29,9 @@ import Layout from '../layouts/Layout.astro';
   <link rel="icon" type="image/svg+xml" href="https://doscientos.es/logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://kit.fontawesome.com/a9b5133090.js" crossorigin="anonymous"></script>
 
   <!--
@@ -314,31 +323,9 @@ import Layout from '../layouts/Layout.astro';
       mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     }
 
-    .logo-track {
-      display: flex;
-      align-items: center;
-      gap: 64px;
-      width: max-content;
-      animation: ds-marquee 32s linear infinite;
-    }
 
-    .logo-marquee:hover .logo-track {
-      animation-play-state: paused;
-    }
 
-    .logo-track img {
-      height: 30px;
-      width: auto;
-      flex: 0 0 auto;
-      filter: brightness(0) invert(1);
-      opacity: 0.65;
-      transition: opacity .2s ease;
-    }
-
-    .logo-track img:hover {
-      opacity: 1;
-    }
-
+   
     @keyframes ds-marquee {
       from {
         transform: translateX(0);
@@ -850,46 +837,20 @@ import Layout from '../layouts/Layout.astro';
 
   <div class="ds-landing">
 
-
-
     <!-- Mensaje "Agenda abierta para nuevos proyectos" -->
-    <div class="fixed bottom-10 right-10 flex gap-3 border-lime-400 border-1 px-3 py-1 rounded-full items-center text-sm bg-black"> <span class="size-3 rounded-full bg-lime-400"></span> Agenda abierta para nuevos proyectos</div>
+    <AgendaAbiera/>
 
-    
-    <!-- 1. BARRA SUPERIOR MÍNIMA -->
-    <header class="fixed top-0 z-200 flex w-full justify-center pointer-events-none">
-      <a href="https://doscientos.es/" class="pointer-events-auto relative flex items-center gap-2 rounded-b-3xl bg-white px-6 pb-3 pt-2
-        before:content-[''] before:absolute before:top-0 before:-left-4 before:size-4 before:bg-[radial-gradient(circle_at_0_100%,transparent_16px,#fff_16.5px)]
-        after:content-[''] after:absolute after:top-0 after:-right-4 after:size-4 after:bg-[radial-gradient(circle_at_100%_100%,transparent_16px,#fff_16.5px)] hover:shadow-[0_0_30px_rgba(182,255,92,0.45)] transition-shadow duration-500">
-        <img src="images/iso.svg" alt="Logo de Doscientos" class="h-3">
-        <span class="text-sm font-semibold leading-none text-[#2f4a32]">doscientos</span>
-      </a>
-    </header>
-    
+    <!-- HEADER -->
+    <Header/>
 
-    <main>
-      <section id="sectionHero" class="h-screen pt-4 flex flex-col gap-15 pt-30 bg-gradient-to-b from-black via-lime-900 to-black">
+
+    <main class="font-doscientos">
+      <section id="sectionHero" class="h-screen pt-4 flex flex-col gap-15 pt-30 bg-gradient-to-b from-black via-lime-900  to-black">
           <ul class="flex gap-30 w-screen box-border text-center justify-center pb-10">
-            <li class="flex flex-col items-center gap-2 max-w-50 border-lime-400 border-b-2">
-              <p class="size-11 text-2xl text-black font-bold bg-lime-300 flex justify-center items-center rounded-full">1</p>
-              <h3 class="text-lg">Rellena el formulario</h3>
-              <p class="text-sm">Nombre, teléfono y email. Son 30 segundos.</p>
-            </li>
-            <li class="flex flex-col items-center gap-2 max-w-50">
-              <p class="size-11 text-2xl text-black font-bold text-bold bg-white flex justify-center items-center rounded-full">2</p>
-              <h3 class="text-lg">Te contactamos</h3>
-              <p class="text-sm">Un miembro de nuestro equipo se pone en contacto contigo en 24h laborables.</p>
-            </li>
-            <li class="flex flex-col items-center gap-2 max-w-50">
-              <p class="size-11 text-2xl text-black font-bold text-bold bg-white flex justify-center items-center rounded-full">3</p>
-              <h3 class="text-lg">Llamada de 15 minutos</h3>
-              <p class="text-sm">Nos cuentas qué proceso quieres automatizar o qué app necesitas. Sin tecnicismos.</p>
-            </li>
-            <li class="flex flex-col items-center gap-2 max-w-50">
-              <p class="size-11 text-2xl text-black font-bold bg-white flex justify-center items-center rounded-full">4</p>
-              <h3 class="text-lg">Te enseñamos tu demo</h3>
-              <p class="text-sm">Construimos una demostración funcional, sin coste, y te la presentamos.</p>
-            </li>
+            <PasosSeleccionado numero="1" titulo="Rellena el formulario" texto="Nombre, teléfono y email. Son 30 segundos."/>
+            <Pasos numero="2" titulo="Te contactamo" texto="Un miembro de nuestro equipo se pone en contacto contigo en 24h laborables."/>
+            <Pasos numero="3" titulo="Llamada de 15 minutos" texto="Nos cuentas qué proceso quieres automatizar o qué app necesitas. Sin tecnicismos."/>
+            <Pasos numero="4" titulo="Te enseñamos tu demo" texto="Construimos una demostración funcional, sin coste, y te la presentamos."/>
           </ul>
           <div>
             <iframe src="https://api.leadconnectorhq.com/widget/form/WCEM83cs117HgWgAWREj"
@@ -908,115 +869,78 @@ import Layout from '../layouts/Layout.astro';
               </p>
           </div>
       </section>
+      
 
 
-
-
-      <section id="sectionEmpresas" class="bg-[#131710] flex flex-col text-center h-50 border-t-1 justify-center border-b-0">
-        <h2 class="text-xl pt-10 pb-3">Empresas como estas ya confían en nosotros</h2>
-        <div class="w-[1000px] overflow-hidden m-auto">
-          <div class="logo-track">
+      <section id="sectionTestimonios" class="py-16 bg-black pt-[200px] border-b-2">
+        <h3 class="text-center text-xl font-bold pb-10 text-red-700">LO QUE DICEN DE NOSOTROS</h3>
+        <div class="flex justify-center items-center gap-5">
+          <div class="cursor-pointer size-10 text-center content-center rounded-full"><i class="fa-solid fa-angle-left"></i></div>
+          <Resenas comentario="Profesionalidad, cercanía y muy buena atención desde el primer momento. Muy satisfechos." nombre="Sergio Alonso"/>
+          <Resenas comentario="Profesionalidad, cercanía y muy buena atención desde el primer momento. Muy satisfechos." nombre="Pol Guabau Amores"/>
+          <Resenas comentario="Profesionalidad, cercanía y muy buena atención desde el primer momento. Muy satisfechos." nombre="Gerard Martínez Alcocer"/>
+          <div class="cursor-pointer size-10 text-center content-center rounded-full"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+        <div class="w-[1000px] overflow-hidden m-auto pt-20 pb-40">
+          <div class="flex items-center gap-16  animate-[ds-marquee_32s_linear_infinite]">
             <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac478ac553500f1aa.webp"
-                alt="Grúas del Vallès" />
+                alt="Grúas del Vallès" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac062e4fb05201d3f.webp"
-                alt="Palumba EU" />
+                alt="Palumba EU" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14bc478ac553500f1ca.webp"
-                alt="Salvadis" />
+                alt="Salvadis" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a22bc27f58f942ba8.svg"
-                alt="IFCO Systems" />
+                alt="IFCO Systems" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14adca4eec506073e2a.svg"
-                alt="Ajuntament de Mataró" />
+                alt="Ajuntament de Mataró" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148c478ac553500f162.svg"
-                alt="Cashmóvil Canarias" />
+                alt="Cashmóvil Canarias" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a17216aa3b2a2fa65.svg"
-                alt="Optinergia" />
+                alt="Optinergia" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a7d735ea2a15b7157.webp"
-                alt="Golf Natural Guidance" />
+                alt="Golf Natural Guidance" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86209.svg"
-                alt="Ajuntament de Barcelona" />
+                alt="Ajuntament de Barcelona" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86208.svg"
-                alt="Bitácora" />
-              <!-- se repite para que el carrusel sea infinito -->
+                alt="Bitácora" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/> -->
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac478ac553500f1aa.webp"
-                alt="Grúas del Vallès" aria-hidden="true" />
+                alt="Grúas del Vallès" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14ac062e4fb05201d3f.webp"
-                alt="Palumba EU" aria-hidden="true" />
+                alt="Palumba EU" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14bc478ac553500f1ca.webp"
-                alt="Salvadis" aria-hidden="true" />
+                alt="Salvadis" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a22bc27f58f942ba8.svg"
-                alt="IFCO Systems" aria-hidden="true" />
+                alt="IFCO Systems" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14adca4eec506073e2a.svg"
-                alt="Ajuntament de Mataró" aria-hidden="true" />
+                alt="Ajuntament de Mataró" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148c478ac553500f162.svg"
-                alt="Cashmóvil Canarias" aria-hidden="true" />
+                alt="Cashmóvil Canarias" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a17216aa3b2a2fa65.svg"
-                alt="Optinergia" aria-hidden="true" />
+                alt="Optinergia" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e14a7d735ea2a15b7157.webp"
-                alt="Golf Natural Guidance" aria-hidden="true" />
+                alt="Golf Natural Guidance" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86209.svg"
-                alt="Ajuntament de Barcelona" aria-hidden="true" />
+                alt="Ajuntament de Barcelona" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
               <img src="https://assets.cdn.filesafe.space/GuoKDbLxUEQs2z98NM2K/media/6ac4e148195f9172eda86208.svg"
-                alt="Bitácora" aria-hidden="true" />
+                alt="Bitácora" aria-hidden="true" class="h-[30px] w-auto flex-none brightness-0 invert opacity-65 transition-opacity duration-200 ease-in-out hover:opacity-100"/>
           </div>
         </div>
       </section>
+      
 
+      <section id="sectionCasos">
+          <h3></h3>
+          <p></p>
+          <div> 
+              <div>
 
-      <!-- 3. BARRA DE CONFIANZA -->
-      <!-- <section class="bg-zinc-800 border-2 border-zinc-600">
-        <h2 class="text-center">“Empresas como estas ya confían en nosotros”</h2>
-        <div class="container">
-          <div class="logo-marquee" aria-label="Empresas con las que hemos trabajado">
-            <div class="logo-track">
-          
-            </div>
+              </div>
+              <div>
+                
+              </div>
           </div>
-
-          <div class="stats-row">
-            <div class="stat"><b>6 semanas</b><span>MVP listo y funcionando</span></div>
-            <div class="stat"><b>100%</b><span>El código es tuyo</span></div>
-            <div class="stat"><b>Precio fijo</b><span>Cerrado desde el inicio</span></div>
-            <div class="stat"><b>+30</b><span>Proyectos entregados</span></div>
-          </div>
-        </div>
-      </section> -->
-
-      <!-- 4. LA DEMOSTRACIÓN SIN COSTE (sección estrella) -->
-      <section class="section demo-section" id="demo">
-        <div class="container">
-          <div class="section-head">
-            <span class="kicker">Nuestro diferencial</span>
-            <h2>Primero te lo enseñamos. Luego decides.</h2>
-            <p>Nada de maquetas en PDF ni promesas comerciales: ves tu software funcionando antes de comprometerte a
-              nada.</p>
-          </div>
-
-          <div class="demo-steps">
-            <div class="demo-step">
-              <div class="num">1</div>
-              <h3>Nos cuentas tu idea o tu proceso</h3>
-              <p>Una llamada corta para entender qué necesitas automatizar o construir, sin tecnicismos.</p>
-            </div>
-            <div class="demo-step">
-              <span class="free-badge">Sin coste</span>
-              <div class="num">2</div>
-              <h3>Te montamos una demostración funcional</h3>
-              <p>Construimos una demo real de tu software, sin coste, para que la veas y la pruebes funcionando.</p>
-            </div>
-            <div class="demo-step">
-              <div class="num">3</div>
-              <h3>Si te convence, lo desarrollamos. Si no, no pagas nada</h3>
-              <p>Decides con algo real delante. Si seguimos adelante, cerramos un precio fijo y nos ponemos a
-                construirlo de principio a fin.</p>
-            </div>
-          </div>
-
-          <div class="demo-cta">
-            <a class="btn btn-lime btn-lg" href="#demo-form">Pide tu demostración sin coste</a>
-            <p>Cero riesgo para ti: la demo no se cobra bajo ningún concepto.</p>
-          </div>
-        </div>
       </section>
+
 
       <!-- 5. CASOS DE ÉXITO -->
       <section class="section" id="casos">
@@ -1080,87 +1004,8 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </section>
 
-      <!-- 6. POR QUÉ NOSOTROS -->
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <span class="kicker">Por qué nosotros</span>
-            <h2>Doscientos frente a una agencia tradicional</h2>
-          </div>
-
-          <div class="compare">
-            <div class="compare-row head">
-              <div>Aspecto</div>
-              <div>doscientos</div>
-              <div>Agencia tradicional</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Entrega del MVP</div>
-              <div class="us">6 semanas</div>
-              <div class="them">4–6 meses</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Precio</div>
-              <div class="us">Fijo y cerrado</div>
-              <div class="them">Variable</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Demos</div>
-              <div class="us">Semanales</div>
-              <div class="them">Mensuales</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Código</div>
-              <div class="us">100% tuyo</div>
-              <div class="them">Depende del contrato</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Soporte</div>
-              <div class="us">30 días incluidos</div>
-              <div class="them">Coste adicional</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Equipo</div>
-              <div class="us">Senior dedicado</div>
-              <div class="them">Junior + rotación</div>
-            </div>
-            <div class="compare-row">
-              <div class="label">Cuotas por usuario</div>
-              <div class="us">Nunca</div>
-              <div class="them">Habitual</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. TESTIMONIOS -->
-      <section class="section section-tight">
-        <div class="container">
-          <div class="section-head">
-            <span class="kicker">Lo que dicen de nosotros</span>
-            <h2>Clientes reales, resultados reales</h2>
-          </div>
-          <div class="testi-grid">
-            <div class="testi-card">
-              <div class="stars">★★★★★</div>
-              <p class="quote">"Profesionalidad, cercanía y muy buena atención desde el primer momento. Muy
-                satisfechos."</p>
-              <div class="testi-who"><b>Salvadis</b><span>Reseña verificada en Google</span></div>
-            </div>
-            <div class="testi-card">
-              <div class="stars">★★★★★</div>
-              <p class="quote">"Necesitábamos una página web que transmitiera profesionalidad nada más entrar y eso lo
-                lograron."</p>
-              <div class="testi-who"><b>Cyberimpulsa</b><span>Reseña verificada en Google</span></div>
-            </div>
-            <div class="testi-card">
-              <div class="stars">★★★★★</div>
-              <p class="quote">"Rápidos, claros y muy profesionales. El producto me ha encantado."</p>
-              <div class="testi-who"><b>Natura Studio</b><span>Reseña verificada en Google</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
+    
+  
 
       <!-- 8. FAQ -->
       <section class="section section-tight">

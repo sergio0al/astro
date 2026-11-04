@@ -1,0 +1,9 @@
+---
+const {numero, titulo, texto} = Astro.props;
+---
+
+<li class="flex flex-col items-center gap-2 max-w-50 border-lime-400 border-b-2">
+    <p class="size-11 text-2xl text-black font-bold bg-lime-300 flex justify-center items-center rounded-full">{numero}</p>
+    <h3 class="text-lg font-bold">{titulo}</h3>
+    <p class="text-sm">{texto}</p>
+</li>
